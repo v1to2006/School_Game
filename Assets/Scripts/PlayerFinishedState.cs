@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class PlayerFinishedState : MonoBehaviour
 {
     [SerializeField] private Player _player;
@@ -14,6 +15,12 @@ public class PlayerFinishedState : MonoBehaviour
 
     private float _smoothMove = 800f;
     private Vector3 _inputVelocity;
+    private AudioSource _sound;
+
+    private void Awake()
+    {
+        _sound = GetComponent<AudioSource>();
+    }
 
     private void OnEnable()
     {
@@ -32,6 +39,7 @@ public class PlayerFinishedState : MonoBehaviour
         _inGameUI.gameObject.SetActive(false);
         _cameraAnimator.enabled = true;
         _finalScoreView.gameObject.SetActive(true);
+        _sound.Play();
         MouseCursor.Show();
 
         _player.gameObject.SetActive(false);

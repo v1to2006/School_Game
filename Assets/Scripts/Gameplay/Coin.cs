@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(BoxCollider))]
+[RequireComponent(typeof(AudioSource))]
 public class Coin : MonoBehaviour
 {
     public static event Action CoinCollected;
@@ -12,12 +13,14 @@ public class Coin : MonoBehaviour
     [SerializeField] private Transform _body;
 
     private BoxCollider _collider;
+    private AudioSource _sound;
 
     private float _destroyDelayTime = 1f;
 
     private void Awake()
     {
         _collider = GetComponent<BoxCollider>();
+        _sound = GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -33,6 +36,7 @@ public class Coin : MonoBehaviour
         CoinCollected?.Invoke();
 
         _destroyEffect.Play();
+        _sound.Play();
 
         _collider.enabled = false;
         _body.gameObject.SetActive(false);
